@@ -1,8 +1,10 @@
 package home
 
 import (
+	"bytes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
+	"text/template"
 )
 
 type HomeHandler struct {
@@ -22,7 +24,19 @@ func NewHomeHandler(router fiber.Router, customLogger *zerolog.Logger) {
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
-	return c.SendString("Hello, World!")
+	tmpl := template.Must(template.ParseFiles("./html/page.html"))
+	data := struct {
+		Count int
+	}{
+		Count: 1,
+	}
+
+	var tmp bytes.Buffer
+	if err := tmpl.Execute(&tmp, data); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error(), "Template compile error")
+	}
+	c.Set(fiber.HeaderContentType, fiber.MIMETextHTMLCharsetUTF8)
+	return c.Send(tmp.Bytes())
 }
 
 func (h *HomeHandler) error(c *fiber.Ctx) error {
