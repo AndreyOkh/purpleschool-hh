@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Test</title>
-</head>
-<body>
-   <h1>
-       {{.Count}} - число пользователей
-   </h1>
+{{ template "base" }}
 
-</body>
-</html>
+{{ define "title" }}
+<title>Главная страница</title>
+{{ end }}
+
+{{ define "content" }}
+    <h3 style="color: peru">Главная</h3>
+    {{ range . }}
+        <p>{{ .Id }} - {{ .Name }}</p>
+    {{ end }}
+{{ end }}
