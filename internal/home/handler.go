@@ -3,6 +3,8 @@ package home
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
+	templ_adapter "hh/pkg/templ-adapter"
+	"hh/views"
 )
 
 type HomeHandler struct {
@@ -22,18 +24,8 @@ func NewHomeHandler(router fiber.Router, customLogger *zerolog.Logger) {
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
-	users := []struct {
-		Id   int
-		Name string
-	}{
-		{Id: 0, Name: "Anton"},
-		{Id: 1, Name: "Andrey"},
-		{Id: 2, Name: "Artyom"},
-		{Id: 3, Name: "Trofim"},
-		{Id: 4, Name: "Edyard"},
-	}
-
-	return c.Render("page", users)
+	component := views.Hello("Andrey")
+	return templ_adapter.Render(c, component)
 }
 
 func (h *HomeHandler) error(c *fiber.Ctx) error {
