@@ -1,0 +1,15 @@
+package views
+
+import "hh/views/components"
+import "hh/views/layout"
+
+templ Main() {
+    <main>
+    @layout.Header() {
+        @components.Title("Найди работу своей мечты")
+        @components.SubTitle("Простой поиск работы")
+    }
+    Main
+    </main>
+}
+

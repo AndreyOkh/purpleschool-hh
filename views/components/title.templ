@@ -1,0 +1,13 @@
+package components
+
+css subTitleClass() {
+    color: {"#bababa"};
+}
+
+templ Title(title string) {
+	<h1>{ title }</h1>
+}
+
+templ SubTitle(title string) {
+	<h2 class={subTitleClass()}>{ title }</h2>
+}

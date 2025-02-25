@@ -17,14 +17,13 @@ func NewHomeHandler(router fiber.Router, customLogger *zerolog.Logger) {
 		router: router,
 		log:    *customLogger,
 	}
-	api := h.router.Group("/api")
-	api.Get("/", h.home)
-	api.Get("/error", h.error)
+	h.router.Get("/", h.home)
+	h.router.Get("/error", h.error)
 
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
-	component := views.Hello("Andrey")
+	component := views.Main()
 	return templ_adapter.Render(c, component)
 }
 
