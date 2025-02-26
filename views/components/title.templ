@@ -2,10 +2,18 @@ package components
 
 css subTitleClass() {
     color: {"#bababa"};
+	font-size: 18px;
+	margin: 0;
+}
+
+css titleClass() {
+    color: { templ.SafeCSSProperty("var(--color-white)")};
+	font-size: 70px;
+	margin: 0;
 }
 
 templ Title(title string) {
-	<h1>{ title }</h1>
+	<h1 class={titleClass()}>{ title }</h1>
 }
 
 templ SubTitle(title string) {

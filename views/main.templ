@@ -4,12 +4,18 @@ import "hh/views/components"
 import "hh/views/layout"
 
 templ Main() {
-    <main>
-    @layout.Header() {
-        @components.Title("Найди работу своей мечты")
-        @components.SubTitle("Простой поиск работы")
+    @layout.Layout(layout.LayoutProps{
+        Title: "Найди работу мечны",
+        MetaDescription: "Сайт по поиску работы мечты",
+    }) {
+        <main>
+        @layout.Header() {
+            @components.Title("Найди работу своей мечты")
+            @components.SubTitle("Простой поиск работы")
+        }
+        Main
+        </main>
+
     }
-    Main
-    </main>
 }
 

@@ -27,6 +27,7 @@ func main() {
 		Logger: customLogger,
 	}))
 	app.Use(recover.New())
+	app.Static("/public", "./public")
 	home.NewHomeHandler(app, customLogger)
 
 	if err := app.Listen(":3000"); err != nil {

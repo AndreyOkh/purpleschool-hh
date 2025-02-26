@@ -1,12 +1,23 @@
 package layout
 
-
-css headerClass() {
-    text-align: {"center"};
-}
-
 templ Header() {
-	<div class={headerClass()}>
+	@HeaderStyle()
+	<div class="header">
+        @Menu()
 	    { children... }
 	</div>
+}
+
+templ HeaderStyle() {
+	<style>
+		.header {
+			display: flex;
+			justify-content: space-between;
+			flex-direction: column;
+			text-align: center;
+			align-items: center;
+			background-color: #222222;
+			width: 100%;
+		}
+	</style>
 }
