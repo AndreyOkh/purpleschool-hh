@@ -1,9 +1,11 @@
 package views
 
 import "hh/views/components"
+import "hh/views/widgets"
 import "hh/views/layout"
 
 templ Main() {
+    @MainStyle()
     @layout.Layout(layout.LayoutProps{
         Title: "Найди работу мечны",
         MetaDescription: "Сайт по поиску работы мечты",
@@ -14,8 +16,22 @@ templ Main() {
             @components.SubTitle("Простой поиск работы")
         }
         Main
+        <div class="main__submit-form">
+            @widgets.VacancyForm()
+        </div>
         </main>
 
     }
 }
 
+templ MainStyle() {
+    <style>
+        .main__submit-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(48, 150, 137, 0.18);
+            padding: 60px 0 120px 0;
+        }
+    </style>
+}
