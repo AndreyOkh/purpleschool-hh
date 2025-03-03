@@ -36,7 +36,8 @@ templ VacancyForm() {
 				})
 			</div>
 			@components.SubmitButton() {
-				<span>Опубликовать вакансию</span>
+				<div class="vacancy-form__submit">Опубликовать вакансию</div>
+				<div class="vacancy-form__loader"></div>
 			}
 
 		</form>
@@ -68,5 +69,39 @@ templ VacancyFormStyle() {
 			gap: 30px 24px;
 			margin-bottom: 30px;
 		}
+        .htmx-request .vacancy-form__submit {
+			display: none;
+		}
+
+        /* HTML: <div class="loader"></div> */
+        .vacancy-form__loader {
+			display: none;
+		}
+        .htmx-request .vacancy-form__loader {
+			/*display: block;*/
+            width: 50px;
+            aspect-ratio: 1;
+            display: grid;
+            border: 4px solid #0000;
+            border-radius: 50%;
+            border-right-color: var(--color-white);
+            animation: l15 1s infinite linear;
+        }
+        .vacancy-form__loader::before,
+        .vacancy-form__loader::after {
+            content: "";
+            grid-area: 1/1;
+            margin: 2px;
+            border: inherit;
+            border-radius: 50%;
+            animation: l15 2s infinite;
+        }
+        .vacancy-form__loader::after {
+            margin: 8px;
+            animation-duration: 3s;
+        }
+        @keyframes l15{
+            100%{transform: rotate(1turn)}
+        }
 	</style>
 }
