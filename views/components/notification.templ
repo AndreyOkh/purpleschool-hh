@@ -1,0 +1,24 @@
+package components
+
+templ Notification(message string) {
+    @NotificationStyle()
+    <div class="notification notification__success">{ message }</div>
+}
+
+templ NotificationStyle() {
+    <style>
+        .notification {
+            width: 100%;
+            padding: 30px;
+            color: var(--color-white);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .notification__success {
+            background-color: #31b4a3;
+            opacity: .5;
+            font-size: 30px;
+            text-align: center;
+        }
+    </style>
+}

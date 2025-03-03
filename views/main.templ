@@ -7,7 +7,7 @@ import "hh/views/layout"
 templ Main() {
     @MainStyle()
     @layout.Layout(layout.LayoutProps{
-        Title: "Найди работу мечны",
+        Title: "Найди работу мечты",
         MetaDescription: "Сайт по поиску работы мечты",
     }) {
         <main>
@@ -15,7 +15,6 @@ templ Main() {
             @components.Title("Найди работу своей мечты")
             @components.SubTitle("Простой поиск работы")
         }
-        Main
         <div class="main__submit-form">
             @widgets.VacancyForm()
         </div>

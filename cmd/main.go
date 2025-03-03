@@ -7,6 +7,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"hh/config"
 	"hh/internal/home"
+	"hh/internal/vacancy"
 	"hh/pkg/logger"
 	"runtime/debug"
 )
@@ -29,6 +30,7 @@ func main() {
 	app.Use(recover.New())
 	app.Static("/public", "./public")
 	home.NewHomeHandler(app, customLogger)
+	vacancy.NewHandler(app, customLogger)
 
 	if err := app.Listen(":3000"); err != nil {
 		panic(err)

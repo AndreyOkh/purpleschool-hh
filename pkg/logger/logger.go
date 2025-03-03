@@ -7,7 +7,7 @@ import (
 )
 
 func NewLogger(conf *config.LogConfig) *zerolog.Logger {
-	zerolog.SetGlobalLevel(zerolog.WarnLevel)
+	zerolog.SetGlobalLevel(zerolog.Level(conf.Level))
 
 	var logger zerolog.Logger
 
