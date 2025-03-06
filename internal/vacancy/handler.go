@@ -8,18 +8,20 @@ import (
 	templ_adapter "hh/pkg/templ-adapter"
 	"hh/pkg/validator"
 	"hh/views/components"
-	"time"
+	"net/http"
 )
 
 type VacancyHandler struct {
-	router fiber.Router
-	log    zerolog.Logger
+	router     fiber.Router
+	log        zerolog.Logger
+	repository *Repository
 }
 
-func NewHandler(router fiber.Router, customLogger *zerolog.Logger) {
+func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *Repository) {
 	h := &VacancyHandler{
-		router: router,
-		log:    *customLogger,
+		router:     router,
+		log:        *customLogger,
+		repository: repository,
 	}
 	vacancyGroup := h.router.Group("/vacancy")
 	vacancyGroup.Post("/", h.createVacancy)
@@ -60,15 +62,19 @@ func (h *VacancyHandler) createVacancy(c *fiber.Ctx) error {
 		Field:   form.Location,
 		Message: "Не указано местоположение компании",
 	})
-	message := validator.FormatErrors(errors)
-	var status components.NotificationStatus
+
 	if len(errors.Errors) > 0 {
-		status = components.NotificationFailure
-	} else {
-		status = components.NotificationSuccess
-		message = "Форма отправлена успешно"
+		message := validator.FormatErrors(errors)
+		component := components.Notification(message, components.NotificationFailure)
+		return templ_adapter.Render(c, component, http.StatusBadRequest)
 	}
-	component := components.Notification(message, status)
-	time.Sleep(time.Second * 2)
-	return templ_adapter.Render(c, component)
+
+	if err := h.repository.AddVacancy(form); err != nil {
+		component := components.Notification("Произошла внутренняя ошибка", components.NotificationFailure)
+		return templ_adapter.Render(c, component, http.StatusInternalServerError)
+	}
+
+	message := "Форма отправлена успешно"
+	component := components.Notification(message, components.NotificationSuccess)
+	return templ_adapter.Render(c, component, http.StatusOK)
 }

@@ -23,14 +23,20 @@ func Init(confPath ...string) {
 }
 
 type DatabaseConfig struct {
-	Host string
-	Port int
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Database string
 }
 
 func NewDatabaseConfig() *DatabaseConfig {
 	return &DatabaseConfig{
-		Host: getStrEnv("DB_HOST", "localhost"),
-		Port: getIntEnv("DB_PORT", 5432),
+		Host:     getStrEnv("DB_HOST", "localhost"),
+		Port:     getIntEnv("DB_PORT", 5432),
+		User:     getStrEnv("DB_USER", "root"),
+		Password: getStrEnv("DB_PASSWORD", ""),
+		Database: getStrEnv("DB_NAME", ""),
 	}
 }
 
