@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog"
 	templ_adapter "hh/pkg/templ-adapter"
 	"hh/views"
+	"net/http"
 )
 
 type HomeHandler struct {
@@ -19,12 +20,17 @@ func NewHomeHandler(router fiber.Router, customLogger *zerolog.Logger) {
 	}
 	h.router.Get("/", h.home)
 	h.router.Get("/error", h.error)
+	h.router.Get("/favicon.ico", h.favicon)
 
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
 	component := views.Main()
-	return templ_adapter.Render(c, component)
+	return templ_adapter.Render(c, component, http.StatusOK)
+}
+
+func (h *HomeHandler) favicon(c *fiber.Ctx) error {
+	return c.SendFile("./public/favicon.ico")
 }
 
 func (h *HomeHandler) error(c *fiber.Ctx) error {

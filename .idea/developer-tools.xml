@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DeveloperToolsToolWindowSettingsV1" lastSelectedContentNodeId="units-converter">
+    <developerToolsConfigurations>
+      <developerToolConfiguration developerToolId="units-converter" id="82c073c9-4935-454c-9216-41a0900d2ab1" name="Workbench">
+        <properties>
+          <property key="timeConverter_timeNanoseconds" type="INPUT" value="java.math.BigDecimal|31536000000000000000" />
+        </properties>
+      </developerToolConfiguration>
+    </developerToolsConfigurations>
+  </component>
+</project>

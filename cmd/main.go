@@ -8,6 +8,7 @@ import (
 	"hh/config"
 	"hh/internal/home"
 	"hh/internal/vacancy"
+	"hh/pkg/database"
 	"hh/pkg/logger"
 	"runtime/debug"
 )
@@ -15,10 +16,16 @@ import (
 func main() {
 	config.Init()
 
-	config.NewDatabaseConfig()
+	// Load configs
+	dbConf := config.NewDatabaseConfig()
 	logConfig := config.NewLogConfig()
 	customLogger := logger.NewLogger(logConfig)
 
+	// Creat DB POOL
+	dbPool := database.CreateDBPool(dbConf, customLogger)
+	defer dbPool.Close()
+
+	// Return info
 	info, _ := debug.ReadBuildInfo()
 	log.Debug().Msgf("%+v", info.Main.Version)
 
@@ -29,8 +36,13 @@ func main() {
 	}))
 	app.Use(recover.New())
 	app.Static("/public", "./public")
+
+	// Repositories
+	vacancyRepository := vacancy.NewRepository(dbPool, customLogger)
+
+	// Handlers
 	home.NewHomeHandler(app, customLogger)
-	vacancy.NewHandler(app, customLogger)
+	vacancy.NewHandler(app, customLogger, vacancyRepository)
 
 	if err := app.Listen(":3000"); err != nil {
 		panic(err)
