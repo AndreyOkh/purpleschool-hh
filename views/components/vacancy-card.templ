@@ -16,7 +16,7 @@ templ VacancyCard(props VacancyCardProps) {
 @VacancyCardStyle()
 <div class="vacancy-card">
     <div>
-        <span class="vacancy-card__createdat">{ props.Createdat.String() }</span>
+        <span class="vacancy-card__createdat">{ time.Since(props.Createdat.Truncate(10 * time.Hour)).String() }</span>
     </div>
     <div class="vacancy-card__title">
         <div  class="vacancy-card__role">{ props.Role }</div>

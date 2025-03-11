@@ -41,7 +41,7 @@ func main() {
 	vacancyRepository := vacancy.NewRepository(dbPool, customLogger)
 
 	// Handlers
-	home.NewHomeHandler(app, customLogger)
+	home.NewHomeHandler(app, customLogger, vacancyRepository)
 	vacancy.NewHandler(app, customLogger, vacancyRepository)
 
 	if err := app.Listen(":3000"); err != nil {

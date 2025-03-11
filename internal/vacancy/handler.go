@@ -25,7 +25,16 @@ func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *R
 	}
 	vacancyGroup := h.router.Group("/vacancy")
 	vacancyGroup.Post("/", h.createVacancy)
+	vacancyGroup.Get("/", h.GetAll)
 
+}
+
+func (h *VacancyHandler) GetAll(c *fiber.Ctx) error {
+	vacancies, err := h.repository.GetAll()
+	if err != nil {
+		return err
+	}
+	return c.JSON(vacancies)
 }
 
 func (h *VacancyHandler) createVacancy(c *fiber.Ctx) error {
@@ -50,7 +59,7 @@ func (h *VacancyHandler) createVacancy(c *fiber.Ctx) error {
 		Field:   form.Company,
 		Message: "Не указано название компании",
 	}, &validators.StringIsPresent{
-		Name:    "Type",
+		Name:    "CompanyType",
 		Field:   form.Type,
 		Message: "Не указана сфера деятельности компании",
 	}, &validators.StringIsPresent{
