@@ -5,7 +5,7 @@ import "hh/views/widgets"
 import "hh/views/layout"
 import "hh/internal/vacancy"
 
-templ Main(vacancies []*vacancy.Vacancy) {
+templ Main(vacancies []*vacancy.Vacancy, pageCount, page int) {
     @MainStyle()
     @layout.Layout(layout.LayoutProps{
         Title: "Найди работу мечты",
@@ -16,17 +16,7 @@ templ Main(vacancies []*vacancy.Vacancy) {
             @components.Title("Найди работу своей мечты")
             @components.SubTitle("Простой поиск работы")
         }
-        for _, vacancy := range vacancies {
-            @components.VacancyCard(components.VacancyCardProps{
-                Email: vacancy.Email,
-                Location: vacancy.Location,
-                Salary: vacancy.Salary,
-                CompanyType: vacancy.CompanyType,
-                Company: vacancy.Company,
-                Createdat: vacancy.CreatedAt,
-                Role: vacancy.Role,
-            })
-        }
+        @widgets.VacancyList(vacancies, pageCount, page)
         <div class="main__submit-form">
             @widgets.VacancyForm()
         </div>

@@ -1,0 +1,71 @@
+package widgets
+
+import "hh/internal/vacancy"
+import "hh/views/components"
+import "fmt"
+
+templ VacancyList(vacancies []*vacancy.Vacancy, pageCount, page int) {
+	@VacancyListStyle()
+	<div class="vacancy-list__wrapper">
+		@components.Title2("Последние вакансии", false)
+		<p>Найдите подходящую вакансию за пару минут!</p>
+		<div class="vacancy-list">
+		for _, vacancy := range vacancies {
+			@components.VacancyCard(components.VacancyCardProps{
+				Email: vacancy.Email,
+				Location: vacancy.Location,
+				Salary: vacancy.Salary,
+				CompanyType: vacancy.CompanyType,
+				Company: vacancy.Company,
+				Createdat: vacancy.CreatedAt,
+				Role: vacancy.Role,
+			})
+		}
+		</div>
+		<div class={"vacancy-list_pagination", templ.KV("right-button", page == 1 )}>
+			if page != 1 {
+				<a href={templ.SafeURL(fmt.Sprintf("?page=%d", page - 1))}>Предыдущие</a>
+			}
+			if page < pageCount {
+				<a href={templ.SafeURL(fmt.Sprintf("?page=%d", page + 1))}>Следующие</a>
+			}
+		</div>
+	</div>
+}
+
+templ VacancyListStyle() {
+	<style>
+		.vacancy-list__wrapper {
+		width: 100%;
+		max-width: 1296px;
+		margin: 0 auto;
+		padding: 60px 0;
+		}
+		.vacancy-list__wrapper p {
+			margin-bottom: 60px;
+		}
+		.vacancy-list {
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			gap: 24px;
+		}
+		.vacancy-list_pagination {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 50px;
+		}
+		.vacancy-list_pagination a {
+			text-decoration: none;
+			color: #6C757D;
+			font-size: 20px;
+
+		}
+		.right-button {
+			display: flex;
+			align-items: center;
+			justify-content: right;
+		}
+	</style>
+}

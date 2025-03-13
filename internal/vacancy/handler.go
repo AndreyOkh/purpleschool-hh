@@ -30,7 +30,7 @@ func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *R
 }
 
 func (h *VacancyHandler) GetAll(c *fiber.Ctx) error {
-	vacancies, err := h.repository.GetAll()
+	vacancies, err := h.repository.GetAll(1, 0)
 	if err != nil {
 		return err
 	}

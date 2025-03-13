@@ -6,6 +6,7 @@ import (
 	"hh/internal/vacancy"
 	templ_adapter "hh/pkg/templ-adapter"
 	"hh/views"
+	"math"
 	"net/http"
 )
 
@@ -28,12 +29,19 @@ func NewHomeHandler(router fiber.Router, customLogger *zerolog.Logger, vacancyRe
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
-	vacancies, err := h.vacancyRepository.GetAll()
+	pageItems := 2
+	amountVacancies := h.vacancyRepository.CountVacancies()
+	amountPages := int(math.Ceil(float64(amountVacancies / pageItems)))
+	page := c.QueryInt("page", 1)
+	if page > amountPages || page < 1 {
+		return c.SendStatus(http.StatusNotFound)
+	}
+	vacancies, err := h.vacancyRepository.GetAll(pageItems, (page-1)*pageItems)
 	if err != nil {
 		h.log.Error().Err(err).Msg("Error getting vacancies")
 		return c.SendStatus(http.StatusInternalServerError)
 	}
-	component := views.Main(vacancies)
+	component := views.Main(vacancies, amountPages, page)
 	return templ_adapter.Render(c, component, http.StatusOK)
 }
 

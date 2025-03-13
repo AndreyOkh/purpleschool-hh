@@ -13,7 +13,7 @@ import "hh/views/widgets"
 import "hh/views/layout"
 import "hh/internal/vacancy"
 
-func Main(vacancies []*vacancy.Vacancy) templ.Component {
+func Main(vacancies []*vacancy.Vacancy, pageCount, page int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -84,19 +84,9 @@ func Main(vacancies []*vacancy.Vacancy) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			for _, vacancy := range vacancies {
-				templ_7745c5c3_Err = components.VacancyCard(components.VacancyCardProps{
-					Email:       vacancy.Email,
-					Location:    vacancy.Location,
-					Salary:      vacancy.Salary,
-					CompanyType: vacancy.CompanyType,
-					Company:     vacancy.Company,
-					Createdat:   vacancy.CreatedAt,
-					Role:        vacancy.Role,
-				}).Render(ctx, templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
+			templ_7745c5c3_Err = widgets.VacancyList(vacancies, pageCount, page).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"main__submit-form\">")
 			if templ_7745c5c3_Err != nil {
